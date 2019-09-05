@@ -2,6 +2,8 @@ package com.ToolBox.util;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,13 +32,24 @@ public class StringTool {
 	}
 	
 	/**<p>进行字符串正则提取*/
+	public List<String> getByToList(String src , String regex , String re_str) {
+		List<String> list = new ArrayList<String>();
+		Matcher m = Pattern.compile(regex).matcher(src);
+		while(m.find())
+		{
+			list.add(m.group().replaceAll(re_str, ""));
+		}
+		return list;
+	}
+	
+	/**<p>进行字符串正则提取*/
 	public String getByAllString(String src , String regex , String re_str)
 	{
 		StringBuilder tmp = new StringBuilder();
 		Matcher m = Pattern.compile(regex).matcher(src);
 		while(m.find())
 		{
-			tmp.append(m.group().replaceAll(re_str, "") + "\n" );
+			tmp.append(m.group().replaceAll(re_str, "") + "\n");
 		}
 		return tmp.toString();
 	}
@@ -46,9 +59,9 @@ public class StringTool {
 	}
 	
 	/**<p>获取json数据*/
-	public String getByJson(String src , String name)
+	public String getByJson(String src , String key)
 	{
-		return getByString(src, "\""+name+"\":\"(.+?\")", "\""+name+"\":|\"|,").replaceAll("\\s+", "");
+		return getByString(src, "\""+key+"\":\"(.+?\")", "\""+key+"\":|\"|,").replaceAll("\\s+", "");
 	}
 	
 	/**<p>对链接进行转码*/
@@ -83,6 +96,39 @@ public class StringTool {
 	public String[] formatToJson(String src)
 	{
 		return getByAllString(src, "\\{(.+?\\}),", "").split("\n");
+	}
+	
+	public static byte[] toByteArray(String hexString) {
+		  if (hexString.isEmpty())
+		  {
+			  throw new IllegalArgumentException("this hexString must not be empty");
+		  }else {
+			  final byte[] byteArray = new byte[hexString.length() / 2];
+			  hexString = hexString.toLowerCase();
+			  int k = 0;
+			  for (int i = 0; i < byteArray.length; i++) {//因为是16进制，最多只会占用4位，转换成字节需要两个16进制的字符，高位在先
+			   byte high = (byte) (Character.digit(hexString.charAt(k), 16) & 0xff);
+			   byte low = (byte) (Character.digit(hexString.charAt(k + 1), 16) & 0xff);
+			   byteArray[i] = (byte) (high << 4 | low);
+			   k += 2;
+			  }
+			  return byteArray;
+		  }
+		 }
+	
+	public static String toHexString(byte[] byteArray) {
+		final StringBuilder hexString = new StringBuilder();
+
+		if (byteArray == null || byteArray.length < 1) {
+			throw new IllegalArgumentException("this byteArray must not be null or empty");
+		} else {
+			for (int i = 0; i < byteArray.length; i++) {
+				if ((byteArray[i] & 0xff) < 0x10)// 0~F前面不零
+					hexString.append("0");
+				hexString.append(Integer.toHexString(0xFF & byteArray[i]));
+			}
+		}
+		return hexString.toString().toLowerCase();
 	}
 	
 }

@@ -2,9 +2,13 @@ package com.ToolBox.util;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 
 /**
 * <p>创建时间：2019年1月27日 下午8:17:14
@@ -67,5 +71,24 @@ public class FileTool {
 		}
 		return sb.toString();
 	}
+	
+	/**</p>以二进制方式合并文件*/
+	public void BinaryFileMerge(File files[] , File outFile) throws IOException {
+		FileOutputStream fos = new FileOutputStream(outFile);
+		int len = -1;
+		byte buff[] = new byte[1024];
+		for(int i = 0;i<files.length;i++) {
+			DataInputStream dataInputStream = new DataInputStream(new FileInputStream(files[i]));
+			while((len = dataInputStream.read(buff)) != -1) {
+				fos.write(buff, 0, len);
+			}
+			dataInputStream.close();
+		}
+		fos.close();
+		System.err.println("merge ok !");
+	}
+	
+	
+	
 	
 }

@@ -69,12 +69,6 @@ public class HRequest {
 					String arr[] = s.split(":");
 					huc.setRequestProperty(arr[0], arr[1].replaceAll("\\s+", ""));
 				}
-			} else {
-				try {
-					throw new Exception("please set header");
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -99,13 +93,6 @@ public class HRequest {
 				for (String s : getHeaders()) {
 					String arr[] = s.split(":");
 					huc.setRequestProperty(arr[0], arr[1].replaceAll("\\s+", ""));
-				}
-			} else {
-				try {
-					throw new Exception("please set header");
-				} catch (Exception e) {
-
-					e.printStackTrace();
 				}
 			}
 			// huc.setRequestProperty("Content-Length", huc.getContentLength()+"");
