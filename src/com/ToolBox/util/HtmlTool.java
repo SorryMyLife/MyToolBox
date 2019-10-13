@@ -9,6 +9,7 @@ package com.ToolBox.util;
 * @since JDK 1.8
 * ÎÄ¼þÃû³Æ£ºHtmlTool.java
 * */
+
 public class HtmlTool {
 	
 	private String html = "";
@@ -43,5 +44,4 @@ public class HtmlTool {
 	public String toString() {
 		return html;
 	}
-	
 }

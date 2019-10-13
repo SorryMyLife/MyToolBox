@@ -1,6 +1,7 @@
 package com.ToolBox.net;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
@@ -24,8 +25,8 @@ import com.ToolBox.util.StringTool;
  */
 public class HRequest {
 
-	private String UserAgent = "", Cookie = "", Header = "", encode = "";
-	private int timeout = 0;
+	private String UserAgent = "", Cookie = "", Header = "", encode = "" ;
+	private int timeout = 0 , code = -1;
 	private String headers[] = null;
 	HttpURLConnection huc = null;
 
@@ -118,6 +119,7 @@ public class HRequest {
 			setEncode("utf-8");
 		}
 		try {
+			setCode(s.getResponseCode());
 			BufferedReader br = new BufferedReader(new InputStreamReader(s.getInputStream(), getEncode()));
 			while ((line = br.readLine()) != null) {
 				tmp.append(line+"\n");
@@ -140,6 +142,7 @@ public class HRequest {
 			setEncode("utf-8");
 		}
 		try {
+			setCode(s.getResponseCode());
 			BufferedReader br = new BufferedReader(
 					new InputStreamReader(new GZIPInputStream(s.getInputStream()), getEncode()));
 			while ((line = br.readLine()) != null) {
@@ -295,6 +298,14 @@ public class HRequest {
 	 */
 	public void setTimeout(int timeout) {
 		this.timeout = timeout;
+	}
+
+	public int getCode() {
+		return code;
+	}
+
+	public void setCode(int code) {
+		this.code = code;
 	}
 
 }

@@ -20,7 +20,31 @@ import com.ToolBox.util.HtmlTool;
  * @since JDK 1.8 文件名称：HttpUtils.java
  */
 public class HttpUtils extends HRequest {
-	private boolean returnResult = true;
+	private boolean returnResult = true, printLog = true;
+
+	public boolean isPrintLog() {
+		return printLog;
+	}
+
+	public void setPrintLog(boolean printLog) {
+		this.printLog = printLog;
+	}
+
+	public void ThreadDownload(String downloadLink, String savePath, int ThreadNum) {
+		MuchThreadDown m = new MuchThreadDown(downloadLink, savePath, ThreadNum);
+		m.setPrintLog(isPrintLog());
+		m.download();
+	}
+
+	public void ThreadDownload(String downloadLink, String savePath, String fileName, int ThreadNum) {
+		MuchThreadDown m = new MuchThreadDown(downloadLink, savePath, fileName, ThreadNum);
+		m.setPrintLog(isPrintLog());
+		m.download();
+	}
+
+	public String getFileName(String url_name) {
+		return url_name.substring(url_name.lastIndexOf("/") + 1);
+	}
 
 	/**
 	 * <p>
@@ -36,8 +60,7 @@ public class HttpUtils extends HRequest {
 	 * 发送post请求
 	 */
 	public String sendPOST(String url_name, String param) {
-		String result = getPostResponse(url_name, param);
-		return isReturnResult() ? result : "";
+		return isReturnResult() ? getPostResponse(url_name, param) : "";
 	}
 
 	public void threadDown(String url_name, String dirPath, String fileName) {
@@ -72,23 +95,33 @@ public class HttpUtils extends HRequest {
 					int len = -1;
 					input = Get(url_name).getInputStream();
 					fos = new FileOutputStream(name);
-					System.err.println(url_name + " start Downlaod ! ");
+					if (isPrintLog()) {
+						System.err.println(url_name + " start Downlaod ! ");
+					}
 					while ((len = input.read(buff)) != -1) {
 						fos.write(buff, 0, len);
-					}					
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
-				}finally {
+				} finally {
 					try {
 						fos.close();
 						input.close();
-						System.err.println("Downlaod ok !  -- save to : " + name);
+						if (isPrintLog()) {
+							System.err.println("Downlaod ok !  -- save to : " + name);
+						}
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
 				}
 			} else {
-				System.err.println(name + " exists !");
+				if(name.length() < 1000) {
+					name.delete();
+					Download(url_name, dirPath, fileName);
+				}
+				if (isPrintLog()) {
+					System.err.println(name + " exists !");
+				}
 			}
 		}
 	}

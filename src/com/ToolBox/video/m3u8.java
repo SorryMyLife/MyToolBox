@@ -1,7 +1,6 @@
 package com.ToolBox.video;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 
 import com.ToolBox.net.HttpUtils;
@@ -13,14 +12,16 @@ import com.ToolBox.util.StringTool;
 * <p>项目名称：ToolBox
 * 
 * <p>类说明：
-*
+*<p>这个工具是用来解析并下载m3u8文件的，
+*<p>采用多线程并行下载，如果遇到阻塞情况还请停止程序并重新运行一遍即可，直至程序正常退出！
+*<p>个人建议用URL下载m3u8文件而不是直接从本地解析下载
 * @version 1.0
 * @since JDK 1.8
 * 文件名称：m3u8.java
 * */
 public class m3u8 {
 	
-	private String m3u8File , savePath;
+	private String m3u8File , savePath , host;
 	private URL urlLink;
 	private final static StringTool st = new StringTool();
 
@@ -71,10 +72,15 @@ public class m3u8 {
 		return tmp.indexOf("http") != -1?st.getByAllString(tmp, "http(.+?\\.ts)(.+?\\S\\n)", "\\n"):st.getByAllString(tmp, "(.+?\\.ts)", "\\n");
 	}
 	
+	public int getSize() {
+		getLink();
+		return st.toList().size();
+	}
+	
 	public void merge(File filePath , File outName) {
 		try {
 			new FileTool().BinaryFileMerge(filePath.listFiles(), outName);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -85,10 +91,28 @@ public class m3u8 {
 			File outPath = new File(getSavePath());
 			if(!outPath.exists()) {
 				outPath.mkdirs();
+				Download();
 			}else {
+				String downloadArr[] = getLink().split("\n");
+				int len = downloadArr.length;
+				System.err.println("file size : " +len);
+				String size =len+"";
+				String name = "";
+				StringBuilder sb=  null;
 				HttpUtils hu = new HttpUtils();
-				for(String l : getLink().split("\n")) {
-					hu.Download(l, getSavePath(), l.substring(l.lastIndexOf("/")+1));
+				for(int j = 0;j<len;j++) {
+					name = j+"";
+					if(name.length() < size.length()) {
+						sb = new StringBuilder(name);
+						sb.insert(sb.indexOf(""),"0");
+						if(sb.length() < size.length()) {
+							sb = new StringBuilder(sb.toString());
+							sb.insert(sb.indexOf(""),"0");
+						}
+					}else {
+						sb = new StringBuilder(name);
+					}
+					hu.threadDown(getHost()+"/"+downloadArr[j], getSavePath(), sb.toString());
 				}
 				System.err.println("files download ok !");
 			}
@@ -105,5 +129,14 @@ public class m3u8 {
 	public void setUrlLink(URL urlLink) {
 		this.urlLink = urlLink;
 	}
+	
+	public String getHost() {
+		return urlLink != null?urlLink.getProtocol()+"://"+urlLink.getHost():host;
+	}
+
+	public void setHost(String host) {
+		this.host = host;
+	}
+	
 	
 }

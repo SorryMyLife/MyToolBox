@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
 * 文件名称：StringTool.java
 * */
 public class StringTool {
-	
+	private List<String> Matchlist = null;
 	/**<p>进行字符串正则提取*/
 	public String getByString(String src , String regex , String re_str)
 	{
@@ -31,25 +31,26 @@ public class StringTool {
 		return tmp.toString();
 	}
 	
+	public List<String> toList(){
+		return Matchlist;
+	}
+	
 	/**<p>进行字符串正则提取*/
 	public List<String> getByToList(String src , String regex , String re_str) {
-		List<String> list = new ArrayList<String>();
-		Matcher m = Pattern.compile(regex).matcher(src);
-		while(m.find())
-		{
-			list.add(m.group().replaceAll(re_str, ""));
-		}
-		return list;
+		getByAllString(src, regex, re_str);
+		return Matchlist;
 	}
 	
 	/**<p>进行字符串正则提取*/
 	public String getByAllString(String src , String regex , String re_str)
 	{
+		Matchlist = new ArrayList<String>();
 		StringBuilder tmp = new StringBuilder();
 		Matcher m = Pattern.compile(regex).matcher(src);
 		while(m.find())
 		{
 			tmp.append(m.group().replaceAll(re_str, "") + "\n");
+			Matchlist.add(m.group().replaceAll(re_str, "") + "\n");
 		}
 		return tmp.toString();
 	}

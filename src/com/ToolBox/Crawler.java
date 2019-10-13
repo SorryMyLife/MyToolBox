@@ -14,5 +14,4 @@ import com.ToolBox.net.CrawlerUtils;
 * */
 public class Crawler extends CrawlerUtils{
 	
-	
 }

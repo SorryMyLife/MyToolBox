@@ -40,6 +40,16 @@ public class SRequest {
 	private PrintWriter pw = null;
 	private InputStream inputStream = null;
 
+	public void ThreadDownload(boolean printLog, String downloadLink, String savePath, int ThreadNum) {
+		MuchThreadDown m = new MuchThreadDown(downloadLink, savePath, ThreadNum);
+		m.setPrintLog(printLog);
+		m.download();
+	}
+
+	public String getFileName(String url_name) {
+		return url_name.substring(url_name.lastIndexOf("/") + 1);
+	}
+
 	/**
 	 * </p>
 	 * 配置必要参数
@@ -92,9 +102,11 @@ public class SRequest {
 			}
 
 			if (getProtocol().equals("https")) {
-				socket = SSLSocketFactory.getDefault().createSocket(InetAddress.getByName(getHost().replaceAll("\\s+", "")), Integer.parseInt(port = "443"));
+				socket = SSLSocketFactory.getDefault().createSocket(
+						InetAddress.getByName(getHost().replaceAll("\\s+", "")), Integer.parseInt(port = "443"));
 			} else if (getProtocol().equals("http")) {
-				socket = new Socket(InetAddress.getByName(getHost().replaceAll("\\s+", "")), Integer.parseInt(port = "80"));
+				socket = new Socket(InetAddress.getByName(getHost().replaceAll("\\s+", "")),
+						Integer.parseInt(port = "80"));
 			} else {
 				throw new Exception("not support this port : " + getProtocol());
 			}
