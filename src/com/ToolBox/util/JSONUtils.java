@@ -44,6 +44,14 @@ public class JSONUtils {
 
 	}
 
+	public boolean checkJsonData() {
+		if (TmpJsonData.length() != getJsonData().length()) {
+			setJsonData(TmpJsonData);
+			return true;
+		}
+		return false;
+	}
+
 	public JSONUtils(File filePath) {
 		FilePath = filePath;
 	}
@@ -85,11 +93,7 @@ public class JSONUtils {
 		if (!getByName(key).equals("")) {
 			TmpJsonData = getJsonData().replaceAll(",\"" + key + "\":\"" + getByName(key) + "\"", "");
 		}
-		if (TmpJsonData.length() != getJsonData().length()) {
-			setJsonData(TmpJsonData);
-			return true;
-		}
-		return false;
+		return checkJsonData();
 	}
 
 	/**
@@ -101,11 +105,7 @@ public class JSONUtils {
 			TmpJsonData = getJsonData().replaceAll("\"" + key + "\":\"" + getByName(key) + "\"",
 					"\"" + key + "\":\"" + value + "\"");
 		}
-		if (TmpJsonData.length() != getJsonData().length()) {
-			setJsonData(TmpJsonData);
-			return true;
-		}
-		return false;
+		return checkJsonData();
 	}
 
 	/**
@@ -119,11 +119,7 @@ public class JSONUtils {
 		} else {
 			TmpJsonData = getJsonData().replaceAll("\\}", ",\"" + key + "\":\"" + value + "\"\\}");
 		}
-		if (TmpJsonData.length() != getJsonData().length()) {
-			setJsonData(TmpJsonData);
-			return true;
-		}
-		return false;
+		return checkJsonData();
 	}
 
 	/**
