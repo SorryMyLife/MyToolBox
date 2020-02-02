@@ -114,14 +114,6 @@ public class HttpUtils extends HRequest {
 						e.printStackTrace();
 					}
 				}
-			} else {
-				if(name.length() < 1000) {
-					name.delete();
-					Download(url_name, dirPath, fileName);
-				}
-				if (isPrintLog()) {
-					System.err.println(name + " exists !");
-				}
 			}
 		}
 	}

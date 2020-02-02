@@ -1,7 +1,6 @@
 package com.ToolBox.net;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
@@ -77,7 +76,7 @@ public class HRequest {
 
 		return huc;
 	}
-
+	
 	/**
 	 * <p>
 	 * ≈‰÷√post«Î«Û

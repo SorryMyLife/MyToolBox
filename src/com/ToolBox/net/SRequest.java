@@ -114,6 +114,7 @@ public class SRequest {
 			pw = new PrintWriter(socket.getOutputStream());
 			pw.write(getMethod() + " " + getPath() + " HTTP/" + getHttp() + "\n");
 			for (String s : getHeaders()) {
+				System.err.println(s);
 				pw.write(s + "\n");
 			}
 		} else {
@@ -417,7 +418,7 @@ public class SRequest {
 	 * ·µ»ØresponseÍ·²¿
 	 */
 	public String getResponseHeader(String url_name, String name) {
-		for (String s : st.getByAllString(checkMethod(url_name).replaceAll("\\n", "----"), "HTT(.+?<)", "<")
+		for (String s : st.getByAllString(checkMethod(url_name), "HTT(.+?<)", "<")
 				.split("----")) {
 			String value = s.substring(s.indexOf(":") + 1);
 			String key = s.replace(":" + value, "");
@@ -454,7 +455,7 @@ public class SRequest {
 	 */
 	public String getResponseHeaders(String url_name) {
 		StringBuilder sb = new StringBuilder();
-		for (String s : st.getByAllString(checkMethod(url_name).replaceAll("\\n", "----"), "HTT(.+?<)", "<")
+		for (String s : st.getByAllString(checkMethod(url_name), "HTT(.+?<)", "<")
 				.split("----")) {
 			sb.append(s + "\n");
 		}

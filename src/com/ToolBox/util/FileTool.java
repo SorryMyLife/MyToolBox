@@ -6,15 +6,16 @@ import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 
 /**
 * <p>创建时间：2019年1月27日 下午8:17:14
 * <p>项目名称：ToolBox
 * 
 * <p>类说明：
+* 封装文件操作，使之更加便捷
 *
 * @version 1.0
 * @since JDK 1.8
@@ -22,17 +23,25 @@ import java.io.IOException;
 * */
 public class FileTool {
 	
+	public String encode = "utf-8";
+	
+	public String getEncode() {
+		return encode;
+	}
+
+	public void setEncode(String encode) {
+		this.encode = encode;
+	}
+
 	/**<p>读取文件*/
-	public String readFile(String file)
-	{
+	public String readFile(File file) {
 		String  t = "";
 		StringBuilder s = new StringBuilder();
 		try {
-			File f = new File(file);
-			if (!f.exists()) {
+			if (!file.exists()) {
 				throw new Exception("没有这个文件！！！");
 			}
-			BufferedReader br = new BufferedReader(new FileReader(f));
+			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file),getEncode()));
 			while((t = br.readLine()) != null)
 			{
 				s.append(t + "\n");
@@ -44,23 +53,34 @@ public class FileTool {
 		return s.toString();
 	}
 	
-	/**<p>写入文件*/
-	public void writeFile(String data , String file)
+	/**<p>读取文件*/
+	public String readFile(String file)
 	{
+		File f = new File(file);
+		return readFile(f);
+	}
+	
+	/**<p>写入文件*/
+	public void writeFile(String data , File file) {
 		try {
-			File f = new File(file);
-			if(f.exists())
-			{
-				writeFile(data, file+"-b");
-			}
-			BufferedWriter bw = new BufferedWriter(new FileWriter(f));
+			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file),getEncode()));
 			bw.write(data);
 			bw.flush();
 			bw.close();
-			System.err.println("写入完成");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	/**<p>写入文件*/
+	public void writeFile(String data , String file)
+	{
+		File f = new File(file);
+		if(f.exists())
+		{
+			writeFile(data, file+"-b");
+		}
+		writeFile(data, f);
 		
 	}
 	/**</p>返回路径内所有文件*/
@@ -85,7 +105,6 @@ public class FileTool {
 			dataInputStream.close();
 		}
 		fos.close();
-		System.err.println("merge ok !");
 	}
 	
 	
