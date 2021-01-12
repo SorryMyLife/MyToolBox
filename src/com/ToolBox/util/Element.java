@@ -30,6 +30,12 @@ public class Element {
 	}
 	
 	/**<p>获取元素的值*/
+	public HtmlTool getRegValue(String reg_str,String re_str)
+	{
+		return new HtmlTool(st.getByString(element, reg_str, re_str));
+	}
+	
+	/**<p>获取元素的值*/
 	public HtmlTool getValue(String name)
 	{
 		return new HtmlTool(st.getByString(element, name+"=(\"|')(.+?(\"|'))", name+"=|\"|'"));
@@ -44,17 +50,18 @@ public class Element {
 	/**<p>返回结果*/
 	public String toString()
 	{
-		return element;
+		return st.UnicodeToString(st.DecodeHtml(element));
 	}
 	
 	/**<p>获取纯文本*/
-	public HtmlTool getText() {
-		return new HtmlTool(st.getByString(element, ">(.+?</"+elementName+")",">|</"+elementName));
+	private String getText() {
+		String page = element.replaceAll("<[a-zA-Z](.+?>)", "").replaceAll("</[a-zA-Z](.+?>)", "");
+		return page.indexOf("</") != -1 ? getText() : page;
 	}
 	
 	/**<p>获取所有纯文本*/
 	public HtmlTool getAllText() {
-		return new HtmlTool(st.getByAllString(element, ">(.+?</"+elementName+")",">|</"+elementName));
+		return new HtmlTool(getText());
 	}
 	
 	/**<p>获取标签值*/

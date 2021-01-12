@@ -34,6 +34,31 @@ public class FileTool {
 		this.encode = encode;
 	}
 
+	//清理不带match符号的所有文件内容
+	public void delNoMatchFiles(File path, String match) {
+		for (File f : path.listFiles()) {
+			if (f.toString().indexOf(match) == -1) {
+				f.delete();
+			}
+		}
+	}
+
+	public void delFolder(String dirPath) {
+		delFolder(new File(dirPath));
+	}
+
+	public void delFolder(File dirPath) {
+		if (dirPath.exists() && dirPath.isDirectory()) {
+			for (File f : dirPath.listFiles()) {
+				if (f.isDirectory()) {
+					delFolder(f);
+				} else {
+					f.delete();
+				}
+			}
+		}
+	}
+
 	/**
 	 * <p>
 	 * 读取文件

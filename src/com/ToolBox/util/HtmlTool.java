@@ -1,4 +1,8 @@
 package com.ToolBox.util;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
 * <p>创建时间：2019年1月24日 上午10:05:50
 * <p>项目名称：ToolBox
@@ -23,6 +27,16 @@ public class HtmlTool {
 	}
 	
 	/**<p>获取HTML元素*/
+	public List<Element> getByElements(String name)
+	{
+		List<Element> list = new ArrayList<>();
+		for(String s : st.getByAllString(html, "<"+name+"(.+?</"+name+">)", "").split("\n")) {
+			list.add(new Element(s,name));	
+		}
+		return list;
+	}
+	
+	/**<p>获取HTML元素*/
 	public Element getByElement(String name)
 	{
 		return new Element(st.getByAllString(html, "<"+name+"(.+?</"+name+">)", ""),name);
@@ -42,6 +56,6 @@ public class HtmlTool {
 	
 	/**<p>返回获取到的内容*/
 	public String toString() {
-		return html;
+		return st.UnicodeToString(st.DecodeHtml(html));
 	}
 }

@@ -117,7 +117,7 @@ public class HttpUtils extends HRequest {
 			}
 		}
 	}
-
+	
 	/**
 	 * <p>
 	 * 判断是否要返回结果
@@ -165,5 +165,7 @@ public class HttpUtils extends HRequest {
 	public HtmlTool toGzipPostHtml(String url_name, String param) {
 		return new HtmlTool(getGzipPostResponse(url_name, param));
 	}
+
+	
 
 }

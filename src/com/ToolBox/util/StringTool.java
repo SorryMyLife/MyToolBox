@@ -9,22 +9,22 @@ import java.util.regex.Pattern;
 
 /**
  * <p>
- * ´´½¨Ê±¼ä£º2019Äê1ÔÂ23ÈÕ ÏÂÎç6:10:35
+ * åˆ›å»ºæ—¶é—´ï¼š2019å¹´1æœˆ23æ—¥ ä¸‹åˆ6:10:35
  * <p>
- * ÏîÄ¿Ãû³Æ£ºToolBox
+ * é¡¹ç›®åç§°ï¼šToolBox
  * 
  * <p>
- * ÀàËµÃ÷£º ×Ö·û´®¹¤¾ß¼¯
+ * ç±»è¯´æ˜ï¼š å­—ç¬¦ä¸²å·¥å…·é›†
  * 
  * @version 1.0
- * @since JDK 1.8 ÎÄ¼şÃû³Æ£ºStringTool.java
+ * @since JDK 1.8 æ–‡ä»¶åç§°ï¼šStringTool.java
  */
 public class StringTool {
 	private List<String> Matchlist = null;
 
 	/**
 	 * <p>
-	 * ½øĞĞ×Ö·û´®ÕıÔòÌáÈ¡
+	 * è¿›è¡Œå­—ç¬¦ä¸²æ­£åˆ™æå–
 	 */
 	public String getByString(String src, String regex, String re_str) {
 		StringBuilder tmp = new StringBuilder();
@@ -41,7 +41,7 @@ public class StringTool {
 
 	/**
 	 * <p>
-	 * ½øĞĞ×Ö·û´®ÕıÔòÌáÈ¡
+	 * è¿›è¡Œå­—ç¬¦ä¸²æ­£åˆ™æå–
 	 */
 	public List<String> getByToList(String src, String regex, String re_str) {
 		getByAllString(src, regex, re_str);
@@ -50,7 +50,7 @@ public class StringTool {
 
 	/**
 	 * <p>
-	 * ½øĞĞ×Ö·û´®ÕıÔòÌáÈ¡
+	 * è¿›è¡Œå­—ç¬¦ä¸²æ­£åˆ™æå–
 	 */
 	public String getByAllString(String src, String regex, String re_str) {
 		Matchlist = new ArrayList<String>();
@@ -69,7 +69,7 @@ public class StringTool {
 
 	/**
 	 * <p>
-	 * »ñÈ¡jsonÊı¾İ
+	 * è·å–jsonæ•°æ®
 	 */
 	public String getByJson(String src, String key) {
 		return getByString(src, "\"" + key + "\":\"(.+?\")", "\"" + key + "\":|\"|,").replaceAll("\\s+", "");
@@ -77,7 +77,7 @@ public class StringTool {
 
 	/**
 	 * <p>
-	 * ¶ÔÁ´½Ó½øĞĞ×ªÂë
+	 * å¯¹é“¾æ¥è¿›è¡Œè½¬ç 
 	 */
 	public String urlencode(String src) {
 		String tmp = "";
@@ -91,9 +91,9 @@ public class StringTool {
 
 	/**
 	 * <p>
-	 * Unicode×ª×Ö·û´®
+	 * Unicodeè½¬å­—ç¬¦ä¸²
 	 */
-	public String UnicodeToString(String unicode) // Unicode×ªStringÓÃµÄ£¬ÒòÎªÕâ¸ö¿á¹·ÒôÀÖ·Ç³£¼¦Àß£¬¸èÃû¡¢¸èÊÖ¡¢¼ò½é¾ÓÈ»ÓÃµÄ¶¼ÊÇUnicode±àÂë£¬²»µÃ²»×ªÒ»ÏÂ£¬²»È»Ã»·¨ÓÃ
+	public String UnicodeToString(String unicode) // Unicodeè½¬Stringç”¨çš„ï¼Œå› ä¸ºè¿™ä¸ªé…·ç‹—éŸ³ä¹éå¸¸é¸¡è‚‹ï¼Œæ­Œåã€æ­Œæ‰‹ã€ç®€ä»‹å±…ç„¶ç”¨çš„éƒ½æ˜¯Unicodeç¼–ç ï¼Œä¸å¾—ä¸è½¬ä¸€ä¸‹ï¼Œä¸ç„¶æ²¡æ³•ç”¨
 	{
 		String tmp = "", str = "";
 		Matcher m = Pattern.compile("(\\\\u(\\p{XDigit}{4}))").matcher(unicode);
@@ -110,20 +110,20 @@ public class StringTool {
 
 	/**
 	 * <p>
-	 * ½«Ò»¶Ñ×Ö·û´®¸ñÊ½»¯Îªjson¸ñÊ½
+	 * å°†ä¸€å †å­—ç¬¦ä¸²æ ¼å¼åŒ–ä¸ºjsonæ ¼å¼
 	 */
 	public String[] formatToJson(String src) {
 		return getByAllString(src, "\\{(.+?\\}),", "").split("\n");
 	}
 
-	public static byte[] toByteArray(String hexString) {
+	public byte[] toByteArray(String hexString) {
 		if (hexString.isEmpty()) {
 			throw new IllegalArgumentException("this hexString must not be empty");
 		} else {
 			final byte[] byteArray = new byte[hexString.length() / 2];
 			hexString = hexString.toLowerCase();
 			int k = 0;
-			for (int i = 0; i < byteArray.length; i++) {// ÒòÎªÊÇ16½øÖÆ£¬×î¶àÖ»»áÕ¼ÓÃ4Î»£¬×ª»»³É×Ö½ÚĞèÒªÁ½¸ö16½øÖÆµÄ×Ö·û£¬¸ßÎ»ÔÚÏÈ
+			for (int i = 0; i < byteArray.length; i++) {// å› ä¸ºæ˜¯16è¿›åˆ¶ï¼Œæœ€å¤šåªä¼šå ç”¨4ä½ï¼Œè½¬æ¢æˆå­—èŠ‚éœ€è¦ä¸¤ä¸ª16è¿›åˆ¶çš„å­—ç¬¦ï¼Œé«˜ä½åœ¨å…ˆ
 				byte high = (byte) (Character.digit(hexString.charAt(k), 16) & 0xff);
 				byte low = (byte) (Character.digit(hexString.charAt(k + 1), 16) & 0xff);
 				byteArray[i] = (byte) (high << 4 | low);
@@ -133,14 +133,22 @@ public class StringTool {
 		}
 	}
 
-	public static String toHexString(byte[] byteArray) {
+	/**
+	 * 
+	 * è½¬æˆåå…­è¿›åˆ¶å­—ç¬¦ä¸²
+	 * 
+	 * byteArray : ä¼ å…¥çš„å­—èŠ‚æ•°ç»„
+	 * 
+	 * */
+	
+	public String toHexString(byte[] byteArray) {
 		final StringBuilder hexString = new StringBuilder();
 
 		if (byteArray == null || byteArray.length < 1) {
 			throw new IllegalArgumentException("this byteArray must not be null or empty");
 		} else {
 			for (int i = 0; i < byteArray.length; i++) {
-				if ((byteArray[i] & 0xff) < 0x10)// 0~FÇ°Ãæ²»Áã
+				if ((byteArray[i] & 0xff) < 0x10)// 0~Få‰é¢ä¸é›¶
 					hexString.append("0");
 				hexString.append(Integer.toHexString(0xFF & byteArray[i]));
 			}
@@ -148,4 +156,64 @@ public class StringTool {
 		return hexString.toString().toLowerCase();
 	}
 
+	/**
+	 * å°†ç½‘é¡µæºç é‡Œçš„ä¸€äº›ç‰¹æ®Šå­—ç¬¦è½¬æˆèƒ½çœ‹çš„å†…å®¹
+	 * srcHtml : ç½‘é¡µæºç 
+	 * 
+	 * */
+	public String DecodeHtml(String srcHtml) {
+		String code[][] = { { "&nbsp;", "&#160;", " " }, { "&lt;", "&#60;", "<" }, { "&gt;", "&#62;", ">" }, { "&amp;", "&#38;", "&" }, { "&quot;", "&#34;", "\"" },
+				{ "&apos;", "&#39;", "'" }, { "&cent;", "&#162;", "ï¿ " }, { "&pound;", "&#163;", "Â£" }, { "&yen;", "&#165;", "Â¥" }, { "&euro;", "&#8364;", "â‚¬" }, { "&sect;", "&#167;", "Â§" },
+				{ "&copy;", "&#169;", "Â©" }, { "&reg;", "&#174;", "Â®" }, { "&trade;", "&#8482;", "â„¢" }, { "&times;", "&#215;", "Ã—" }, { "&divide;", "&#247;", "Ã·" }};
+
+		for(int i = 0;i<code.length;i++) {
+			srcHtml = srcHtml.replaceAll(code[i][0], code[i][2]).replaceAll(code[i][1], code[i][2]);	
+		}
+		return srcHtml;
+	}
+	
+	/**
+	 * 
+	 * å°†ä¸€ä¸ªå­—ç¬¦ä¸²ä¸­çš„ç¬¬ä¸€ä¸ªå­—ç¬¦ä¸²è½¬æˆå¤§å†™
+	 * 
+	 * str : ä¼ å…¥éœ€è¦å°†ç¬¬ä¸€ä¸ªå­—ç¬¦ä¸²å¤§å†™è½¬æ¢çš„å­—ç¬¦ä¸²
+	 * */
+	
+	public String toUpperCaseStr(String str) {
+		char firstChar = str.toUpperCase().charAt(0);
+	    String nextStr = str.toLowerCase().substring(1);
+	    return firstChar + nextStr;
+	}
+	
+	/**
+	 * å°†å¸¦æœ‰ä¸‹åˆ’çº¿çš„å­—ç¬¦ä¸²è½¬æˆé©¼å³°å­—ç¬¦ä¸²
+	 * 
+	 * str : éœ€è¦è¿›è¡Œé©¼å³°å‘½åè½¬æ¢çš„å­—ç¬¦ä¸²
+	 * caseLower : ç”¨äºç­›é€‰æ˜¯å¦ç¬¬ä¸€ä¸ªä¸‹åˆ’çº¿å­—ç¬¦ä¸²çš„ç¬¬ä¸€ä¸ªå­—ç¬¦ä¸ºå°å†™
+	 * 
+	 * */
+	public String toHump(String str,boolean caseLower) {
+		
+		if(str!=null && !str.equals(null) && !str.isEmpty()) {
+			String[] split = str.split("_");
+			if(split.length > 0) {
+				StringBuilder sb = new StringBuilder();
+				for(int i = 0;i<split.length ;i++) {
+					if(!split[i].equals("") && !split[i].isEmpty() && i == 0) {
+						sb.append(caseLower?split[i].toLowerCase():toUpperCaseStr(split[i].trim()));
+					}else {
+						if(!split[i].equals("") && !split[i].isEmpty()) {
+							sb.append(toUpperCaseStr(split[i].trim()));
+						}
+					}				
+				}
+				return sb.toString().trim();
+			}else {
+				return toUpperCaseStr(str);
+			}
+		}
+		return null;
+	}
+	
+	
 }

@@ -25,7 +25,11 @@ import com.ToolBox.util.StringTool;
 public class HRequest {
 
 	private String UserAgent = "", Cookie = "", Header = "", encode = "" ;
-	private int timeout = 0 , code = -1;
+	private int timeout = 0 , code = -1 , fileSize = 0;
+	public int getFileSize() {
+		return fileSize;
+	}
+
 	private String headers[] = null;
 	HttpURLConnection huc = null;
 
@@ -35,6 +39,7 @@ public class HRequest {
 	 */
 	public void check(String url_name) throws Exception {
 		huc = (HttpURLConnection) new URL(url_name).openConnection();
+		
 	}
 
 	/**
@@ -54,6 +59,23 @@ public class HRequest {
 		return host.substring(host.indexOf("/"));
 	}
 
+	public long getFileSize(String url) {
+		long size = -1;
+		try {
+			check(url);
+			huc.setRequestMethod("GET");
+			huc.setConnectTimeout(timeout == 0?3000:timeout);
+			huc.setReadTimeout(timeout == 0?3000:timeout);
+			size = huc.getContentLengthLong();
+			huc.disconnect();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+//		System.err.println("73 hrequest size :: " + size);
+		return size;
+	}
+	
 	/**
 	 * <p>
 	 * ≈‰÷√get«Î«Û
@@ -119,6 +141,7 @@ public class HRequest {
 		}
 		try {
 			setCode(s.getResponseCode());
+			fileSize = s.getContentLength();
 			BufferedReader br = new BufferedReader(new InputStreamReader(s.getInputStream(), getEncode()));
 			while ((line = br.readLine()) != null) {
 				tmp.append(line+"\n");
@@ -142,6 +165,7 @@ public class HRequest {
 		}
 		try {
 			setCode(s.getResponseCode());
+			fileSize = s.getContentLength();
 			BufferedReader br = new BufferedReader(
 					new InputStreamReader(new GZIPInputStream(s.getInputStream()), getEncode()));
 			while ((line = br.readLine()) != null) {
